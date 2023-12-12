@@ -24,7 +24,7 @@ reset:			## resets the config files
 	@printf "[\e[0;36mINFO\e[0m] Resetting config files..."
 	rm -rf ./configs
 	mkdir ./configs
-	find ./configs_reference -type f -name "config*.txt" -exec cp -rp -t ./configs {} +
+	find ./configs_reference -type f -name "config*.txt" -exec cp -rp {} ./configs \;
 	chmod -R 777 ./configs
 
 all: clean reset bin  ## all of the above
