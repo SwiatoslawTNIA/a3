@@ -7,6 +7,19 @@ ASSIGNMENT    := a3
 
 
 default: help
+# a3.h start.h error.h
+r:a3.o start.o error.o 
+	gcc a3.o start.o error.o -o a3
+	./a3 AAAAA
+a3.o: a3.c a3.h start.h
+	gcc -c a3.c -o a3.o 
+start.o: start.c a3.h start.h
+	gcc -c start.c -o start.o 
+error.o: error.c error.h
+	gcc -c error.c -o error.o
+
+
+
 
 clean: reset          ## cleans up project folder
 	@printf '[\e[0;36mINFO\e[0m] Cleaning up folder...\n'
