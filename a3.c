@@ -8,12 +8,30 @@
 // Author: 7393
 //---------------------------------------------------------------------------------------------------------------------
 //
-#include "error.h"
 #include "a3.h"
+#include "error.h"
 #include "start.h"
+//---------------------------------------------------------------------------------------------------------------------
+///
+/// The function below starts the execution of the program
+///
+/// @param argc is the number of arguments passed when executing the while
+/// @param argv is an array of pointers to string literals, that represent the args, that are
+/// passed when executing the program
+///
+/// @return the execution code
+//
+int PLAYERS = 0;
+
 int main(int argc, char *argv[])
 {
-  printf("%d, %s", argc, argv[1]);
-  
-  return 0;
+  int RETURN_VALUE = checkInputParam(argc, argv);
+  printError(RETURN_VALUE, argv[1]);
+  if(RETURN_VALUE == 0)
+  {
+    Card **pt_to_pt_to_card = parseFile(argv[1]);
+    RETURN_VALUE = checkCard(pt_to_pt_to_card);
+    free_cards_array(pt_to_pt_to_card);
+  }
+  return RETURN_VALUE;
 }

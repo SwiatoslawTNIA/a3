@@ -1,11 +1,18 @@
 //---------------------------------------------------------------------------------------------------------------------
-// a3.h
+// start.h
 //
-// This is a header file, where all the main functions of the group start are declared,
+// The header file of the start.c file, in which all the prototypes and necessary enums, structs and typedefs
 //
-// Group: start
+// Group: all
 //
-// Author: 7939
+// Author: 7393
 //---------------------------------------------------------------------------------------------------------------------
 //
-void ex(void);
+#ifndef INCLUDED
+#define INCLUDED
+#include "a3.h"
+#endif
+
+Card **parseFile(char *file_name);
+Card *createCard(int number, char color);
+void free_cards_array(Card **cards_array);

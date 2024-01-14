@@ -8,16 +8,23 @@ ASSIGNMENT    := a3
 
 default: help
 # a3.h start.h error.h
-r:a3.o start.o error.o 
-	gcc a3.o start.o error.o -o a3
-	./a3 AAAAA
-a3.o: a3.c a3.h start.h
-	gcc -c a3.c -o a3.o 
-start.o: start.c a3.h start.h
-	gcc -c start.c -o start.o 
-error.o: error.c error.h
-	gcc -c error.c -o error.o
+val: a3
+	valgrind ./a3 AAAAA --leak-check=full
 
+r: a3
+	./a3 AAAAA
+
+a3:a3.o error.o start.o
+	gcc a3.o error.o start.o -o a3 -Wall 
+
+a3.o: a3.c a3.h error.h
+	gcc -c a3.c -Wall
+
+error.o: error.c a3.h error.h 
+	gcc -c error.c -Wall
+
+start.o: start.c start.h a3.h 
+	gcc -c start.c -Wall
 
 
 
