@@ -33,8 +33,8 @@ Card **parseFile(char *file_name)
   {    
     if(index >= 1)
     {
-      
       cards_array = realloc(cards_array, (index + 1 )* sizeof(Card*));//dynamically allocated space for the size
+      printf("|%lu|", (index + 1)* sizeof(Card));
       if(cards_array == NULL)
       {
         free_cards_array(cards_array);
@@ -45,7 +45,6 @@ Card **parseFile(char *file_name)
     *(cards_array + index++) = new_card;
     printf("Card.color = %c, card_number = %d\n", cards_array[index - 1]->color,
     cards_array[index - 1]->number); 
-    // (*(cards_array + index - 1))->number);
     getc(file_p);
   }
   fclose(file_p);
