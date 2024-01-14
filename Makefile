@@ -9,7 +9,7 @@ ASSIGNMENT    := a3
 default: help
 # a3.h start.h error.h
 val: a3
-	valgrind ./a3 AAAAA --leak-check=full
+	valgrind ./a3 AAAAA 	
 
 r: a3
 	./a3 AAAAA
