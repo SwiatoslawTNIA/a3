@@ -38,12 +38,12 @@ Card **parseFile(char *file_name)
       if(temp == NULL)
       {
         fclose(file_p);
-        free_cards_array(cards_array);
+        freeCardsArray(cards_array);
         return NULL;
       }  
       //free the cards array and then reallocate the new space to it:
       cards_array = temp;
-      printf("|%lu|", (LENGTH + 1)* sizeof(Card));
+      printf("%lu", (LENGTH + 1) * sizeof(Card *));
     }
     cards_array[LENGTH++] = createCard(number, color);
     printf("Card.color = %c, card_number = %d\n", cards_array[LENGTH - 1]->color,
@@ -74,10 +74,31 @@ void printWelcomeMessage(void)
 ///
 /// @return void
 //
-void free_cards_array(Card **cards_array)
+void freeCardsArray(Card **cards_array)
 {
   int i = 0;
   while(i < LENGTH)
+  {
+    free(cards_array[i]);
+    cards_array[i] = NULL;
+    i++;
+  }
+
+  free(cards_array);
+}
+//---------------------------------------------------------------------------------------------------------------------
+///
+/// The function frees the memory for a pointer to pointers to an array of structs
+///
+/// @param cards_array is a pointer to a pointer to a struct of type Card
+/// @param cards_number is a number of cards to be freed
+///
+/// @return void
+//
+void freePlayerCards(Card **cards_array, int cards_number)
+{
+  int i = 0;
+  while(i < cards_number)
   {
     free(cards_array[i]);
     cards_array[i] = NULL;
@@ -101,5 +122,75 @@ Card *createCard(int number, char color)
   Card *new_card = malloc(sizeof(Card));
   new_card->color = color;
   new_card->number = number;
+  new_card->prev_Node = NULL;
   return new_card;
+}
+//distribute the cards:
+//---------------------------------------------------------------------------------------------------------------------
+///
+/// The function below creates a Player struct based on the index, if the index is 0 -
+/// the first player is created, if the index is 1, the second player is created.
+///
+/// @param array_cards is the pointer to pointer to card, that is stored on the heap
+/// @param index determines if that is the player 1 or player 2
+///
+/// @return a new Player struct
+//
+Player distribute(Card** array_cards, int index)
+{//each player must have precisely 10 cards:
+  int card_number = 0;
+  if(index == 0)//this is the player 1
+  {
+    Player New_player = {NULL, 0};
+    //create a linked list:
+    Card **pt_to_pt_card =(Card **)malloc(sizeof(Card*)*10);
+    if(pt_to_pt_card == NULL)
+    {
+      
+      return New_player;
+    }
+    for(int i = 0;card_number < 10; i +=2, card_number++)
+    {
+      //create new struct:
+      Card *new_Card = createCard(array_cards[i]->number, array_cards[i]->color);
+      if(new_Card == NULL)
+      {
+        freePlayerCards(pt_to_pt_card, card_number);
+        return New_player;
+      }
+      pt_to_pt_card[card_number] = new_Card;
+      if(i != 0)//if it's not the first card, the last card is the same as any other card
+      {
+        new_Card->prev_Node = pt_to_pt_card[card_number - 1];
+      }
+    }
+    New_player.cards_array_p = pt_to_pt_card;
+  return New_player;
+  }
+  else
+  {//player 2:
+    Player New_player = {NULL, 1};
+    Card **pt_to_pt_card =(Card **)malloc(sizeof(Card*)*10);
+    if(pt_to_pt_card == NULL)
+    {
+      return New_player;
+    }
+    for(int i = 1;card_number < 10; i +=2, card_number++)
+    {
+      //create new struct:
+      Card *new_Card = createCard(array_cards[i]->number, array_cards[i]->color);
+      if(new_Card == NULL)
+      {
+        freePlayerCards(pt_to_pt_card, card_number);
+        return New_player;
+      }
+      pt_to_pt_card[card_number] = new_Card;
+      if(i != 1)//if it's not the first card, the last card is the same as any other card
+      {
+        new_Card->prev_Node = pt_to_pt_card[card_number - 1];
+      }
+    }
+    New_player.cards_array_p = pt_to_pt_card;
+    return New_player;
+  }
 }

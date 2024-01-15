@@ -126,3 +126,20 @@ int checkCard(Card **pt_to_pt_to_card)
   }
   return 0;
 }
+//---------------------------------------------------------------------------------------------------------------------
+///
+/// The function below checks for the validity of the output of the distribute function
+///
+/// @param pt_to_pt_to_card is a pointer to pointer to type Card.
+///
+/// @return 4 if the output is invalid, otherwise 0;
+//
+int checkPlayerCards(Card **pt_to_pt_card)
+{
+  if(pt_to_pt_card == NULL)
+  {
+    fprintf(stderr, "Error: Out of memory\n");
+    return 4;
+  }
+  return 0;
+}

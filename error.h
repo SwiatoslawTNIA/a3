@@ -16,3 +16,4 @@
 void printError(int number, char *file_name);
 int checkInputParam(int argn, char *argv[]);
 int checkCard(Card **pt_to_pt_to_card);
+int checkPlayerCards(Card **pt_to_pt_card);

@@ -21,10 +21,16 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-typedef struct 
+typedef struct Node
 {
   char color;
   int number;
+  struct Node *prev_Node;
 } Card;
+typedef struct 
+{
+  Card **cards_array_p;
+  bool id;
+} Player;
 #endif
 

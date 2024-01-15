@@ -31,7 +31,32 @@ int main(int argc, char *argv[])
   {
     Card **pt_to_pt_to_card = parseFile(argv[1]);
     RETURN_VALUE = checkCard(pt_to_pt_to_card);
-    free_cards_array(pt_to_pt_to_card);
+    Player Player1 = distribute(pt_to_pt_to_card, 0);
+    RETURN_VALUE = checkPlayerCards(Player1.cards_array_p);
+    if(RETURN_VALUE == 4)
+    {
+      freeCardsArray(pt_to_pt_to_card);
+      return RETURN_VALUE;
+    }
+    Player Player2 = distribute(pt_to_pt_to_card, 1);
+    RETURN_VALUE = checkPlayerCards(Player2.cards_array_p);
+    if(RETURN_VALUE == 4)
+    {
+      freePlayerCards(Player1.cards_array_p, 10);
+      freeCardsArray(pt_to_pt_to_card);
+      return RETURN_VALUE;
+    }//if there was enough memory for everything:
+
+
+
+
+
+
+
+
+    freePlayerCards(Player1.cards_array_p, 10);
+    freePlayerCards(Player2.cards_array_p, 10);
+    freeCardsArray(pt_to_pt_to_card);
   }
   return RETURN_VALUE;
 }
