@@ -25,7 +25,7 @@ int PLAYERS = 0;
 
 int main(int argc, char *argv[])
 {
-  int RETURN_VALUE = checkInputParam(argc, argv);
+  int RETURN_VALUE = checkInputParam(argc, argv); 
   printError(RETURN_VALUE, argv[1]);
   if(RETURN_VALUE == 0)
   {

@@ -55,6 +55,7 @@ int checkInputParam(int argn, char *argv[])
     FILE *file_p = fopen(argv[1], "r");
     if(file_p == NULL)
     {
+      fclose(file_p);
       return 2;
     }
      //check for the magic number:
@@ -69,9 +70,11 @@ int checkInputParam(int argn, char *argv[])
     if(strcmp(str, "ESP") != 0)
     {
       free(str);
+      fclose(file_p);
       return 3;
     }
     free(str);
+    fclose(file_p);
   }
   return 0;
 }
