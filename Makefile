@@ -14,8 +14,8 @@ val: a3
 r: a3
 	./a3 AAAAA
 
-a3:a3.o error.o start.o
-	gcc a3.o error.o start.o -o a3 -Wall 
+a3:a3.o error.o start.o running.o
+	gcc a3.o error.o start.o running.o -o a3 -Wall 
 
 a3.o: a3.c a3.h error.h
 	gcc -c a3.c -Wall
@@ -26,6 +26,8 @@ error.o: error.c a3.h error.h
 start.o: start.c start.h a3.h 
 	gcc -c start.c -Wall
 
+running.o: running.c running.h a3.h
+	gcc -c running.c -Wall
 
 
 clean: reset          ## cleans up project folder

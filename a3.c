@@ -11,6 +11,7 @@
 #include "a3.h"
 #include "error.h"
 #include "start.h"
+#include "running.h"
 //---------------------------------------------------------------------------------------------------------------------
 ///
 /// The function below starts the execution of the program
