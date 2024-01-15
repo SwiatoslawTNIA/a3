@@ -43,11 +43,8 @@ Card **parseFile(char *file_name)
       }  
       //free the cards array and then reallocate the new space to it:
       cards_array = temp;
-      printf("%lu", (LENGTH + 1) * sizeof(Card *));
     }
     cards_array[LENGTH++] = createCard(number, color);
-    printf("Card.color = %c, card_number = %d\n", cards_array[LENGTH - 1]->color,
-    cards_array[LENGTH - 1]->number); 
     getc(file_p);
   }
   fclose(file_p);
@@ -122,6 +119,8 @@ Card *createCard(int number, char color)
   Card *new_card = malloc(sizeof(Card));
   new_card->color = color;
   new_card->number = number;
+  new_card->card_type = HAND_CARD;
+  new_card->row = 0;
   new_card->prev_Node = NULL;
   return new_card;
 }
@@ -141,15 +140,14 @@ Player distribute(Card** array_cards, int index)
   int card_number = 0;
   if(index == 0)//this is the player 1
   {
-    Player New_player = {NULL, 0};
+    Player New_player = {NULL,NULL,10, 0, 0};
     //create a linked list:
     Card **pt_to_pt_card =(Card **)malloc(sizeof(Card*)*10);
     if(pt_to_pt_card == NULL)
     {
-      
       return New_player;
     }
-    for(int i = 0;card_number < 10; i +=2, card_number++)
+    for(int i = 0; card_number < 10; i += 2, card_number++)
     {
       //create new struct:
       Card *new_Card = createCard(array_cards[i]->number, array_cards[i]->color);
@@ -159,23 +157,20 @@ Player distribute(Card** array_cards, int index)
         return New_player;
       }
       pt_to_pt_card[card_number] = new_Card;
-      if(i != 0)//if it's not the first card, the last card is the same as any other card
-      {
-        new_Card->prev_Node = pt_to_pt_card[card_number - 1];
-      }
     }
-    New_player.cards_array_p = pt_to_pt_card;
-  return New_player;
+    New_player.hand_cards = pt_to_pt_card;
+    sortCards(New_player);
+    return New_player;
   }
   else
   {//player 2:
-    Player New_player = {NULL, 1};
+    Player New_player = {NULL, NULL,10, 0, 1};
     Card **pt_to_pt_card =(Card **)malloc(sizeof(Card*)*10);
     if(pt_to_pt_card == NULL)
     {
       return New_player;
     }
-    for(int i = 1;card_number < 10; i +=2, card_number++)
+    for(int i = 1;card_number < 10; i += 2, card_number++)
     {
       //create new struct:
       Card *new_Card = createCard(array_cards[i]->number, array_cards[i]->color);
@@ -185,12 +180,34 @@ Player distribute(Card** array_cards, int index)
         return New_player;
       }
       pt_to_pt_card[card_number] = new_Card;
-      if(i != 1)//if it's not the first card, the last card is the same as any other card
+    }
+    New_player.hand_cards = pt_to_pt_card;
+    sortCards(New_player);
+    return New_player;
+  }
+}
+//---------------------------------------------------------------------------------------------------------------------
+///
+/// The function below sort the Player struct, by sorting the pointers to the memory, 
+/// not the structs themselves
+///
+/// @param player is the pointer to Player structs that contains Card pointers
+///
+/// @return void
+//
+void sortCards(Player player)
+{
+  //instead of sorting the structs, we will sort the pointers to those structs:
+  for(int i = 0; i < 9; ++i)
+  {
+    for(int j = 0; j < 9;++j)
+    {
+      if(player.hand_cards[j]->number > player.hand_cards[j + 1]->number)
       {
-        new_Card->prev_Node = pt_to_pt_card[card_number - 1];
+        Card *temp_card_p = player.hand_cards[j];
+        player.hand_cards[j] = player.hand_cards[j + 1];
+        player.hand_cards[j + 1] = temp_card_p;
       }
     }
-    New_player.cards_array_p = pt_to_pt_card;
-    return New_player;
   }
 }

@@ -10,3 +10,6 @@
 //---------------------------------------------------------------------------------------------------------------------
 //
 #include "a3.h"
+int runningGame(Player Player1, Player Player2);
+void printHeader(void);
+void printPlayerStatus(Player PlayerN);

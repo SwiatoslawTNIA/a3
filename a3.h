@@ -20,16 +20,21 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <ctype.h>
-
+enum TYPE {HAND_CARD, CHOSEN_CARD, ROW_CARD};
 typedef struct Node
 {
   char color;
   int number;
   struct Node *prev_Node;
+  enum TYPE card_type;
+  int row;
 } Card;
 typedef struct 
 {
-  Card **cards_array_p;
+  Card **hand_cards;
+  Card **chosen_cards;
+  int hand_cards_n;
+  int chosen_cards_n;
   bool id;
 } Player;
 #endif

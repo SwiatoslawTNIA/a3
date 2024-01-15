@@ -12,6 +12,7 @@
 #include "error.h"
 #include "start.h"
 #include "running.h"
+int PLAYERS = 0;
 //---------------------------------------------------------------------------------------------------------------------
 ///
 /// The function below starts the execution of the program
@@ -22,8 +23,6 @@
 ///
 /// @return the execution code
 //
-int PLAYERS = 0;
-
 int main(int argc, char *argv[])
 {
   int RETURN_VALUE = checkInputParam(argc, argv); 
@@ -33,30 +32,30 @@ int main(int argc, char *argv[])
     Card **pt_to_pt_to_card = parseFile(argv[1]);
     RETURN_VALUE = checkCard(pt_to_pt_to_card);
     Player Player1 = distribute(pt_to_pt_to_card, 0);
-    RETURN_VALUE = checkPlayerCards(Player1.cards_array_p);
+    RETURN_VALUE = checkPlayerCards(Player1.hand_cards);
     if(RETURN_VALUE == 4)
     {
       freeCardsArray(pt_to_pt_to_card);
       return RETURN_VALUE;
     }
     Player Player2 = distribute(pt_to_pt_to_card, 1);
-    RETURN_VALUE = checkPlayerCards(Player2.cards_array_p);
+    RETURN_VALUE = checkPlayerCards(Player2.hand_cards);
     if(RETURN_VALUE == 4)
     {
-      freePlayerCards(Player1.cards_array_p, 10);
+      freePlayerCards(Player1.hand_cards, 10);
       freeCardsArray(pt_to_pt_to_card);
       return RETURN_VALUE;
     }//if there was enough memory for everything:
+    RETURN_VALUE = runningGame(Player1, Player2);
+    
 
 
 
 
 
 
-
-
-    freePlayerCards(Player1.cards_array_p, 10);
-    freePlayerCards(Player2.cards_array_p, 10);
+    freePlayerCards(Player1.hand_cards, 10);
+    freePlayerCards(Player2.hand_cards, 10);
     freeCardsArray(pt_to_pt_to_card);
   }
   return RETURN_VALUE;

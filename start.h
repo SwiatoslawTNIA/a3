@@ -18,3 +18,4 @@ Card **parseFile(char *file_name);
 Card *createCard(int number, char color);
 void freeCardsArray(Card **cards_array);
 void printWelcomeMessage(void);
+void sortCards(Player player);
