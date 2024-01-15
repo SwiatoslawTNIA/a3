@@ -34,6 +34,12 @@ int runningGame(Player Player1, Player Player2)
   return result;
   //to mave adjustments
 }
+//---------------------------------------------------------------------------------------------------------------------
+///
+/// The function prints the choosing phase over header
+///
+/// @return void
+//
 void printChoosingPhaseOver(void)
 {
   printf("\nCard choosing phase is over - passing remaining hand cards to the next player!\n\n");
