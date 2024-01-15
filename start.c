@@ -9,6 +9,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 //
 #include "start.h"
+size_t LENGTH = 0;
 //---------------------------------------------------------------------------------------------------------------------
 ///
 /// The function below parses the file on different cards, dynamically allocating the memory for each
@@ -25,31 +26,47 @@ Card **parseFile(char *file_name)
   while(!isdigit(getc(file_p)))
     ;
   getc(file_p);//get  the enter after the number 2;
-  int number = 0, index = 0;
+  int number = 0;
   char color;
   //create a pointer to an array of pointers to pointers to type Card
   Card **cards_array = (Card **)malloc(sizeof(Card*));
   while(fscanf(file_p, "%d_%c", &number, &color) == 2)
   {    
-    if(index >= 1)
+    if(LENGTH > 0)
     {
-      cards_array = realloc(cards_array, (index + 1 )* sizeof(Card*));//dynamically allocated space for the size
-      printf("|%lu|", (index + 1)* sizeof(Card));
-      if(cards_array == NULL)
+      Card **temp = realloc(cards_array, (LENGTH + 1) * sizeof(Card *));
+      if(temp == NULL)
       {
+        fclose(file_p);
         free_cards_array(cards_array);
         return NULL;
       }  
+      //free the cards array and then reallocate the new space to it:
+      cards_array = temp;
+      printf("|%lu|", (LENGTH + 1)* sizeof(Card));
     }
-    Card *new_card = createCard(number, color);
-    *(cards_array + index++) = new_card;
-    printf("Card.color = %c, card_number = %d\n", cards_array[index - 1]->color,
-    cards_array[index - 1]->number); 
+    cards_array[LENGTH++] = createCard(number, color);
+    printf("Card.color = %c, card_number = %d\n", cards_array[LENGTH - 1]->color,
+    cards_array[LENGTH - 1]->number); 
     getc(file_p);
   }
   fclose(file_p);
+  printWelcomeMessage();
   return cards_array;
-}//---------------------------------------------------------------------------------------------------------------------
+}
+//---------------------------------------------------------------------------------------------------------------------
+///
+/// The function prints the welcoming message
+///
+///
+/// @return void
+//
+void printWelcomeMessage(void)
+{
+  printf("Welcome to SyntaxSakura (2 players are playing)!\n"
+  "\n");
+}
+//---------------------------------------------------------------------------------------------------------------------
 ///
 /// The function frees the memory for a pointer to pointers to an array of structs
 ///
@@ -60,10 +77,13 @@ Card **parseFile(char *file_name)
 void free_cards_array(Card **cards_array)
 {
   int i = 0;
-  while(cards_array[i] != NULL)
+  while(i < LENGTH)
   {
-    free(cards_array[i++]);
+    free(cards_array[i]);
+    cards_array[i] = NULL;
+    i++;
   }
+
   free(cards_array);
 }
 //---------------------------------------------------------------------------------------------------------------------

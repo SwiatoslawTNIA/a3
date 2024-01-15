@@ -16,3 +16,4 @@
 Card **parseFile(char *file_name);
 Card *createCard(int number, char color);
 void free_cards_array(Card **cards_array);
+void printWelcomeMessage(void);

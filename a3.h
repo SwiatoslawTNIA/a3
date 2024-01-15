@@ -26,6 +26,5 @@ typedef struct
   char color;
   int number;
 } Card;
-
 #endif
 

@@ -46,7 +46,7 @@
 //
 int checkInputParam(int argn, char *argv[])
 {
-  if(argn != 2)
+  if(argn < 2)
   {
     return 1;
   }else
