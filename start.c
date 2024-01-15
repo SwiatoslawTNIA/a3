@@ -140,7 +140,7 @@ Player distribute(Card** array_cards, int index)
   int card_number = 0;
   if(index == 0)//this is the player 1
   {
-    Player New_player = {NULL,NULL,10, 0, 0};
+    Player New_player = {NULL,NULL,10, 0, 1};
     //create a linked list:
     Card **pt_to_pt_card =(Card **)malloc(sizeof(Card*)*10);
     if(pt_to_pt_card == NULL)
@@ -164,7 +164,7 @@ Player distribute(Card** array_cards, int index)
   }
   else
   {//player 2:
-    Player New_player = {NULL, NULL,10, 0, 1};
+    Player New_player = {NULL, NULL,10, 0, 2};
     Card **pt_to_pt_card =(Card **)malloc(sizeof(Card*)*10);
     if(pt_to_pt_card == NULL)
     {

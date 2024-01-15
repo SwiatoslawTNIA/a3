@@ -47,9 +47,19 @@ int main(int argc, char *argv[])
       return RETURN_VALUE;
     }//if there was enough memory for everything:
     RETURN_VALUE = runningGame(Player1, Player2);
+    if(RETURN_VALUE == -2 || RETURN_VALUE == -3)
+    {
+      freePlayerCards(Player1.hand_cards, 10);
+      freePlayerCards(Player2.hand_cards, 10);
+      freeCardsArray(pt_to_pt_to_card);
+      if(RETURN_VALUE == -2)//we've set the return value to be -2 because of some 
+      //interceptions with the code's logic, so -2 here means 0 in default
+      {
+        RETURN_VALUE = 0;
+      }
+      return RETURN_VALUE;
+    }
     
-
-
 
 
 

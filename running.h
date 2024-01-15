@@ -13,3 +13,9 @@
 int runningGame(Player Player1, Player Player2);
 void printHeader(void);
 void printPlayerStatus(Player PlayerN);
+int chooseCard(Player PlayerN);
+int checkStringQuit(char *string);
+char *readString(void);
+int checkStringNumbers(char *string, Card **pt_to_pt_card);
+int runningGameChoosingPhase(Player Player1, Player Player2);
+int playerChooses(Player PlayerN, int arr_to_store[]);

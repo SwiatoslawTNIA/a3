@@ -35,7 +35,7 @@ typedef struct
   Card **chosen_cards;
   int hand_cards_n;
   int chosen_cards_n;
-  bool id;
+  int id;
 } Player;
 #endif
 
