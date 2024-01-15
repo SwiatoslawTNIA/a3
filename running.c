@@ -24,13 +24,19 @@
 //
 int runningGame(Player Player1, Player Player2)
 {
+  createLinkedList(Player1);
+  createLinkedList(Player2);
   printHeader();
   int result = runningGameChoosingPhase(Player1, Player2);
   if(result == -2 || result == -3)
     return result;
-  
+  printChoosingPhaseOver();
   return result;
   //to mave adjustments
+}
+void printChoosingPhaseOver(void)
+{
+  printf("\nCard choosing phase is over - passing remaining hand cards to the next player!\n\n");
 }
 //---------------------------------------------------------------------------------------------------------------------
 ///
@@ -66,6 +72,23 @@ int runningGameChoosingPhase(Player Player1, Player Player2)
 }
 //---------------------------------------------------------------------------------------------------------------------
 ///
+/// The function below creates a linked list from a structures
+///
+/// @param PlayerN is a pointer to struct of type Player
+///
+/// @return void
+//
+void createLinkedList(Player PlayerN)
+{
+  Card *prev = NULL;
+  for(int i = 0; i < PlayerN.hand_cards_n;++i)
+  {
+    PlayerN.hand_cards[i]->prev_Node = prev;
+    prev = PlayerN.hand_cards[i];
+  }
+}
+//---------------------------------------------------------------------------------------------------------------------
+///
 /// The function below uses the chooseCard function with error handling to 
 /// store 2 cards from one player in an array defined in runningGameChoosingPhase()
 ///
@@ -88,7 +111,6 @@ int playerChooses(Player PlayerN, int arr_to_store[])
       return -3;
     }
   }
-  printf("The chosen card number is: %d\n", card_number);
   arr_to_store[0] = card_number;
   printf("Please choose a second card to keep:\nP%d > ", PlayerN.id);
   while((card_number = chooseCard(PlayerN)) <= 0)
@@ -101,7 +123,6 @@ int playerChooses(Player PlayerN, int arr_to_store[])
       return -3;
     }
   }
-  printf("The chosen card number is: %d\n", card_number);
   arr_to_store[1] = card_number;
   return 0;
 }
@@ -167,6 +188,12 @@ int checkStringNumbers(char *string, Card **pt_to_pt_card)
   {
 
     bool found = false;
+    //check if the number is followed by any other character:
+    for(int i = 0; i < strlen(string);++i)
+    {
+      if(!isdigit(string[i]))
+        return -3;
+    }
     for(int i = 0; i < 10;++i)//move through each of the cards of the current player:
     {
       if(pt_to_pt_card[i]->card_type == HAND_CARD)
@@ -280,3 +307,7 @@ void printPlayerStatus(Player PlayerN)
   //print rows:
   printf("\n");
 }
+
+
+
+
